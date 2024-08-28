@@ -1,0 +1,14 @@
+
+.login {
+		padding: 60rpx 30rpx 0 30rpx;
+		height: 100%;
+		background-color: #69B29D;
+}
+.inputAct {
+		width: 98%;
+		height: 90rpx;
+		border-radius: 30rpx;
+		box-shadow: 0rpx 0rpx 20rpx 0rpx #D5E8FF;
+		background-color: rgba(243, 243, 243, 0.5);
+		border: 3rpx solid #FFFFFF;
+}

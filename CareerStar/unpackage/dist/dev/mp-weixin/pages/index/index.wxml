@@ -1,0 +1,1 @@
+<view class="content" bindtap="{{a}}"><view class="background-layer"></view><view style="width:220rpx;height:220rpx;border-radius:50%;background-color:white;margin-top:0"></view><view style="margin-top:120rpx;font-size:64rpx;color:white;font-weight:bold">CareerStar</view></view>
