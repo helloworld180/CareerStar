@@ -1,104 +1,201 @@
 <template>
-	<view class="register">
-		<image src="../../static/bacePage.png" class="back-icon" @click="backPage"></image>
-		<view class="title">Hi, 欢迎加入</view>
-		<view class="subtitle">CareerStar</view>
+  <view class="register">
+    <image src="../../static/bacePage.png" class="back-icon" @click="backPage"></image>
+    <view class="title">Hi, 欢迎加入</view>
+    <view class="subtitle">CareerStar</view>
+    
+    <view class="login-form">
+      <view class="input-container">
+        <image src="../../static/login/iPhone.png" class="input-icon"></image>
+        <input type="number" placeholder="请输入你的电话号码" placeholder-class="placeholder" class="input-field" v-model="phone"/>
+      </view>
+      <view style="margin: 60rpx 0 60rpx 0;">
+        <view class="input-container">
+          <image src="../../static/login/safe.png" class="input-icon"></image>
+          <input type="number" placeholder="请输入验证码" placeholder-class="placeholder" class="input-field" v-model="code" :disabled="!canWrite"/>
+          <button @click="sendCode" :disabled="cooldown > 0" class="code-btn">
+            {{ cooldown > 0 ? `${cooldown}s后重新发送` : '获取验证码' }}
+          </button>
+        </view>
+      </view>
+      <view style="margin-bottom: 60rpx;">
+        <view class="input-container">
+          <image src="../../static/login/password.png" class="input-icon"></image>
+          <!-- 密码输入框 -->
+          <input :type="passwordVisible ? 'password' : 'text'" placeholder="请输入你的密码" placeholder-class="placeholder" class="input-field" v-model="password"/>
+          <image 
+          :src="passwordVisible ? '../../static/login/eyeOff.png' : '../../static/login/eyeOn.png'" 
+          class="input-icon-eye" 
+          @click="togglePasswordVisibility"
+          ></image>
+        </view>
+      </view>
+      <view style="margin-bottom: 120rpx;">
+        <!-- 再次输入密码的输入框 -->
+        <view class="input-container">
+          <image src="../../static/login/password.png" class="input-icon"></image>
+          <input :type="passwordVisible ? 'password' : 'text'" placeholder="请再次输入你的密码" placeholder-class="placeholder" class="input-field" v-model="confirmPassword"/>
+          <image 
+          :src="passwordVisible ? '../../static/login/eyeOff.png' : '../../static/login/eyeOn.png'" 
+          class="input-icon-eye" 
+          @click="togglePasswordVisibility"
+          ></image>
+        </view>
 		
-		<view class="login-form">
-			<view class="input-container">
-				<image src="../../static/login/iPhone.png" class="input-icon"></image>
-				<input placeholder="请输入你的电话号码" placeholder-class="placeholder" class="input-field" v-model="phone"/>
-			</view>
-			<view style="margin: 60rpx 0 60rpx 0;">
-				<view class="input-container">
-					<image src="../../static/login/safe.png" class="input-icon"></image>
-					<input placeholder="请输入验证码" placeholder-class="placeholder" class="input-field" v-model="code"/>
-					<button @click="sendCode" :disabled="cooldown > 0" class="code-btn">
-					  {{ cooldown > 0 ? `${cooldown}s后重新发送` : '获取验证码' }}
-					</button>
-				</view>
-			</view>
-			<view style="margin-bottom: 120rpx;">
-				<view class="input-container">
-					<image src="../../static/login/password.png" class="input-icon"></image>
-					<input :type="passwordVisible ? 'password' : 'text'" placeholder="请输入你的密码" placeholder-class="placeholder" class="input-field" v-model="password"/>
-					<image 
-					:src="passwordVisible ? '../../static/login/eyeOff.png' : '../../static/login/eyeOn.png'" 
-					class="input-icon-eye" 
-					@click="togglePasswordVisibility"
-					></image>
-				</view>
-			</view>
-			<!-- 登录按钮 -->
-			<button @click="login" class="login-btn">注 册</button>
-		</view>
-		
+      </view>
+      <!-- 注册按钮 -->
+      <button @click="register" class="login-btn">注 册</button>
+    </view>
+	
+	<view>
+		<text @click="backPage" class="login-login"><去登录</text>
 	</view>
+
+    <!-- 自定义Modal组件 -->
+    <Modal v-if="showModal" :message="modalMessage" @close="showModal = false">
+      <template v-slot:default>
+        {{ modalMessage }}
+      </template>
+    </Modal>
+	
+	
+	
+  </view>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				passwordVisible:'false',
-				phone: '',
-				code: '',
-				password: '',
-				cooldown: 0
-			}
-		},
-		methods: {
-			backPage() {
-				uni.navigateBack({
-					delta: 1	// 返回的页面数
-				})
-			},
-			// 是否显示密码
-			togglePasswordVisibility() {
-				this.passwordVisible = !this.passwordVisible;
-			},
-			sendCode() {
-			  if (this.cooldown > 0) return;
-			  // 这里添加发送验证码的逻辑
-			  console.log('发送验证码到', this.phone);
-			  this.cooldown = 60;
-			  this.startCooldown();
-			},
-			startCooldown() {
-			  if (this.cooldown > 0) {
-			    setTimeout(() => {
-			      this.cooldown--;
-			      this.startCooldown();
-			    }, 1000);
-			  }
-			},
-			login() {
-			    console.log('注册', this.phone, this.code, this.password);
-			  // 这里添加注册逻辑
-			  uni.request({
-			  	url:'',
-			  		method:'POST',
-			  		data: {
-			  			phone: this.phone,
-			  			code: this.code,
-						password: this.password
-			  		},
-			  		success: (res) => {
-			  			console.log('注册成功')
-			  			// 注册成功后存储用户信息或跳转页面
-						uni.navigateTo({
-							url:"/pages/login/chooseIdentity"
-						})
-			  		}
-			  })
-			},
-		}
-	}
+	import Modal from '../../compoments/Modal.vue';
+
+export default {
+  components: { Modal },
+  data() {
+    return {
+      passwordVisible: false,
+      phone: '',
+      code: '',
+      password: '',
+      confirmPassword: '',
+      cooldown: 0,
+      showModal: false, // 控制弹窗显示
+      modalMessage: '' ,// 弹窗的消息内容
+	  canWrite:false
+	
+    };
+  },
+  methods: {
+	
+    backPage() {
+      uni.navigateBack({
+        delta: 1
+      });
+    },
+    // 显示或隐藏密码
+    togglePasswordVisibility() {
+      this.passwordVisible = !this.passwordVisible;
+    },
+    // 验证手机号格式
+    validatePhone() {
+      const phoneRegex = /^1[3-9]\d{9}$/; // 简单的中国手机号格式验证
+      if (!phoneRegex.test(this.phone)) {
+        this.modalMessage = '请输入有效的手机号';
+        this.showModal = true;
+        return false;
+      }
+      return true;
+    },
+    // 验证两次输入的密码是否一致
+    validatePasswords() {
+      const passwordRegex = /^\d+$/; // 仅允许数字
+
+      if (this.password !== this.confirmPassword) {
+        this.modalMessage = '两次输入的密码不一致';
+        this.showModal = true;
+        return false;
+      }
+
+      if (!passwordRegex.test(this.password)) {
+        this.modalMessage = '密码只能包含数字';
+        this.showModal = true;
+        return false;
+      }
+
+      return true;
+    },
+    sendCode() {
+		this.canWrite=true;
+      if (this.cooldown > 0) return;
+      if (!this.validatePhone()) return;
+
+      // 检查手机号是否已注册
+      uni.request({
+        url: 'YOUR_API_ENDPOINT/checkPhone', // 替换为实际API端点
+        method: 'POST',
+        data: {
+          phone: this.phone
+        },
+        success: (res) => {
+          if (res.data.exists) {
+            this.modalMessage = '该手机号已注册';
+            this.showModal = true;
+          } else {
+            // 发送验证码的逻辑
+            console.log('发送验证码到', this.phone);
+            this.cooldown = 60;
+            this.startCooldown();
+          }
+        }
+      });
+    },
+    startCooldown() {
+      if (this.cooldown > 0) {
+        setTimeout(() => {
+          this.cooldown--;
+          this.startCooldown();
+        }, 1000);
+      }
+	  this.canWrite=false;
+    },
+    // 注册方法
+    register() {
+      if (!this.validatePhone() || !this.validatePasswords()) return;
+
+      console.log('注册', this.phone, this.code, this.password);
+      // 这里添加注册逻辑
+      uni.request({
+        url: 'YOUR_API_ENDPOINT/register', // 替换为实际API端点
+        method: 'POST',
+        data: {
+          phone: this.phone,
+          code: this.code,
+          password: this.password
+        },
+        success: (res) => {
+          console.log('注册成功');
+		  this.modalMessage = '注册成功！';
+		  
+		  this.showModal = true;
+          uni.navigateTo({
+            url: "/pages/login/login2"
+          });
+        }
+      });
+    }
+  }
+};
 </script>
 
+
 <style>
+	
 .register {
   padding: 60rpx 30rpx 0 30rpx;
+  background-image: url('/static/background.png'); /* 设置背景图像 */
+    background-size: cover; /* 使背景图像覆盖整个元素 */
+    background-repeat: no-repeat; /* 禁止背景图像重复 */
+    background-position: center; /* 将背景图像居中 */
+  
+    height: 100vh; /* 设置高度 */
+  
 }
 .back-icon {
   width: 48rpx;
@@ -161,7 +258,16 @@
 	font-size: 28rpx;
 	color: #004934
 }
-
+.login-login {
+  color: #FFFFFF; /* 设置文字颜色 */
+  font-size: 16px; /* 设置文字大小 */
+  font-weight: bold; /* 设置字体加粗 */
+  cursor: pointer; /* 设置鼠标悬停时的光标样式 */
+  display: block; /* 确保元素占据一整行 */
+  text-align: center; /* 文本居中对齐 */
+  margin-top: 80rpx; /* 设置顶部外边距，确保在按钮下方 */
+  height: auto; /* 根据内容调整高度 */
+}
 
 .code-btn {
   width: 220rpx;

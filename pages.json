@@ -5,12 +5,7 @@
 			"style": {
 			}
 		},
-		{
-			"path" : "pages/login/login",
-			"style" : 
-			{
-			}
-		},
+	
 		{
 			"path" : "pages/login/login2",
 			"style" : 

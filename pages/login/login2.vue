@@ -1,19 +1,23 @@
 <template>
   <view class="login">
 	<!-- <image src="../../static/background.png" class="background-image"></image> -->
-    <image src="../../static/bacePage.png" class="back-icon" @click="backPage"></image>
+    <image  class="back-icon"></image>
     <view class="title">HELLO!</view>
     <view class="subtitle">欢迎来到CareerStar</view>
     <view class="choose">
       <view :class="{'active': loginType === 'code'}" @click="switchLoginType('code')">验证码登录</view>
       <view :class="{'active': loginType === 'password'}" @click="switchLoginType('password')">密码登录</view>
     </view>
+	
+	
+	
+	
     <!-- 验证码登录 -->
     <view v-if="loginType === 'code'" class="login-form">
 		<!-- add -->
 		<view class="input-container">
 			<image src="../../static/login/iPhone.png" class="input-icon"></image>
-			<input placeholder="请输入手机号" placeholder-class="placeholder" class="input-field" v-model="phone"/>
+			<input placeholder="请输入手机号"type="number" placeholder-class="placeholder" class="input-field" v-model="phone"/>
 		</view>
 		
 		
@@ -30,6 +34,12 @@
       
       <button @click="login1" class="login-btn">登 录</button>
     </view>
+	
+	
+	
+	
+	
+	
     <!-- 密码登录 -->
     <view v-else class="login-form">
 		<view class="input-container">
@@ -163,7 +173,12 @@ export default {
 .login {
 	position: relative;
   padding: 60rpx 30rpx 0 30rpx;
-
+  background-image: url('/static/background.png'); /* 设置背景图像 */
+    background-size: cover; /* 使背景图像覆盖整个元素 */
+    background-repeat: no-repeat; /* 禁止背景图像重复 */
+    background-position: center; /* 将背景图像居中 */
+   
+    height: 100vh; /* 设置高度 */
   overflow: hidden;
   background-color: #69B29D;
 }
@@ -291,4 +306,6 @@ export default {
   box-shadow: 0rpx 0rpx 20rpx 0rpx #D5E8FF;
   background-color: rgba(91, 163, 142, 0.5);
 }
+
+
 </style>
