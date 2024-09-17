@@ -151,7 +151,7 @@ export default {
 <style scoped>
 .HR {
   padding: 60rpx 30rpx 0 30rpx;
-  background-color: #69B29D;
+  background-color: #6998B2;
 }
 
 .header {
@@ -236,12 +236,12 @@ input {
   border: none;
   outline: none;
   font-size: 28rpx;
-  color: rgba(0, 73, 52, 0.73);
+  color: rgba(0, 34, 73, 0.73);
 }
 
 .placeholder {
 	font-size: 22rpx;
-  color: rgba(0, 73, 52, 0.73);
+  color: rgba(0, 34, 73, 0.73);
 }
 
 .upload-box {
@@ -263,7 +263,7 @@ input {
 }
 
 .submit-btn {
-  background-color: #8cc7b5;
+  background-color: #87AFC5;
   color: #fff;
   border: none;
   border-radius: 20rpx;

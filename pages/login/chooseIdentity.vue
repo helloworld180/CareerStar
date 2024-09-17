@@ -6,7 +6,7 @@
 		
 		<view class="choose1" @click="choose1">
 			<image src="../../static/login/star.png" style="width: 108rpx; height: 108rpx; margin-left: 30rpx;"></image>
-			<view style="font-size: 45rpx; margin-left: 30rpx; color: #004934;">我是 HR</view>
+			<view style="font-size: 45rpx; margin-left: 30rpx; color: #3F6091;">我是 HR</view>
 			<image src="../../static/nextPage.png" style="width: 48rpx; height: 48rpx; margin-left: 250rpx;"></image>
 		</view>
 		
@@ -94,7 +94,7 @@
 	margin-top: 50rpx;
 	align-items: center;
 	border-radius: 120rpx;
-	background-color: #BDECDE;
+	background-color: #B6D6E7;
 	box-shadow: 0rpx 5rpx 15rpx 0rpx gray;
 }
 .choose2 {

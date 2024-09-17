@@ -48,7 +48,7 @@
     </view>
 	
 	<view>
-		<text @click="backPage" class="login-login"><去登录</text>
+		<text @click="backPage" class="login-login">< 去登录</text>
 	</view>
 
     <!-- 自定义Modal组件 -->

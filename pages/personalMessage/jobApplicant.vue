@@ -7,7 +7,7 @@
     
 	<!-- 头像框 -->
     <view class="avatar-container">
-      <image class="avatar" :src="avatarUrl" mode="aspectFill"></image>
+      <image class="avatar" :src="avatarUrl" mode="aspectFill" ></image>
       <view class="camera-icon" @tap="chooseAvatar">
 		<image src="../../static/personalMessage/photo.png" style="width: 22rpx; height: 22rpx;"></image>
 	  </view>

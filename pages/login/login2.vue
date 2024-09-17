@@ -55,7 +55,7 @@
 			    @click="togglePasswordVisibility"
 			></image>
 		</view>
-		<view style="display: flex; justify-content: flex-end; font-size: 28rpx; color: #004934; margin-top: 20rpx;">忘记密码 ？</view>
+		<view @click="gotoForgetPsd" style="display: flex; justify-content: flex-end; font-size: 28rpx; color: #004934; margin-top: 20rpx;">忘记密码 ？</view>
 	  <button @click="login2" class="login-btn">登 录</button>
     </view>
 	
@@ -85,6 +85,11 @@ export default {
 			delta: 1	// 返回的页面数
 		})
 	},
+	gotoForgetPsd() {
+		uni.navigateTo({
+			url:'/pages/login/forgetPsd'
+		})
+	},
 	// 是否显示密码
 	togglePasswordVisibility() {
 		this.passwordVisible = !this.passwordVisible;
@@ -95,6 +100,7 @@ export default {
 	// 发送验证码
     sendCode() {
       if (this.cooldown > 0) return;
+	  console.log("尝试发送验证码")
       // 这里添加发送验证码的逻辑
 	  uni.request({
 	      url: 'https://你的后端域名/sendCode', // 后端接口地址

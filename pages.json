@@ -47,11 +47,184 @@
 			{
 				"navigationBarTitleText" : ""
 			}
+		},
+		{
+			"path" : "pages/applicants-index/index",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/applicants-index/offerList",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/applicants-index/jobDetails",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/hr-index/index",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/hr-index/appliDetails",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/index/test",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/login/forgetPsd",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/applicant-mine/applicant-mine",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/hr-mine/hr-mine",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/applicant-mine-deliver/applicant-mine-deliver",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/applicant-mine-collect/applicant-mine-collect",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/hr-mine-receive/hr-mine-receive",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/hr-mine-collect/hr-mine-collect",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/applicant-msg/applicant-msg",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/applicant-msg/chat",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/applicants-index/factory",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/applicants-index/summer",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/applicants-index/neitui",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/applicants-index/chance",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/applicant-mine-resume/applicant-mine-resume",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
 		}
+		
+		
 	],
 	"globalStyle": {
 		"navigationStyle": "custom",
 		"backgroundColor": "#F8F8F8"
 	},
-	"uniIdRouter": {}
+	"uniIdRouter": {},
+	"tabBar": {
+	    "color": "#707070",
+	    "selectedColor": "#69B29D",
+	    // "borderStyle": "white",
+	    "list": [
+	      {
+	        "pagePath": "pages/applicants-index/index",
+	        "iconPath": "static/tabbar/offer-gray.png",
+	        "selectedIconPath": "static/tabbar/offer-green.png",
+	        "text": "offer"
+	      },
+	      {
+	        // "pagePath": "pages/discover/discover",
+	        "iconPath": "static/tabbar/find-gray.png",
+	        "selectedIconPath": "static/tabbar/find-green.png",
+	        "text": "发现"
+	      },
+	      {
+	        // "pagePath": "pages/message/message",
+	        "iconPath": "static/tabbar/message-gray.png",
+	        "selectedIconPath": "static/tabbar/message-green.png",
+	        "text": "消息"
+	      },
+	      {
+	        "pagePath": "pages/applicant-mine/applicant-mine",
+	        "iconPath": "static/tabbar/my-gray.png",
+	        "selectedIconPath": "static/tabbar/my-green.png",
+	        "text": "我的"
+	      }
+	    ]
+	  }
 }
