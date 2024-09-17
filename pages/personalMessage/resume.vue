@@ -13,9 +13,9 @@
             <text class="item-label">{{ item.label }}</text>
             <input v-if="item.type === 'input'" v-model="item.value" class="item-input" :placeholder="'请输入' + item.label" placeholder-class="placeholder"/>
             <!-- 毕业时间日期选择器 -->
-			<picker v-else="item.type === 'date'" mode="date" :value="date" :start="startDate" :end="endDate" @change="bindDateChange" class="item-picker">
+			<!-- <picker v-else="item.type === 'date'" mode="date" :value="date" :start="startDate" :end="endDate" @change="bindDateChange" class="item-picker">
               <view class="picker-value">{{ date }}</view>
-            </picker>
+            </picker> -->
 			<!-- 性别/城市选择器 -->
 			<picker v-else="item.type === 'picker'" :range="item.options" @change="(e) => onPickerChange(e, index, itemIndex)" class="item-picker">
               <view class="picker-value">{{ item.value || '请选择' }}</view>
@@ -65,7 +65,7 @@ export default {
           title: '教育背景',
 		  backgroundColor: '#489C84',
           items: [
-            { label: '毕业时间', value: '', type: 'date' },
+            { label: '毕业时间', value: '', type: 'input' },
             { label: '专业', value: '', type: 'input' },
             { label: '专业成绩', value: '', type: 'input' },
             { label: '主修课程', value: '', type: 'input' },
@@ -125,6 +125,16 @@ export default {
     },
     submitResume() {
       // 实现提交逻辑
+	  uni.request({
+	  	url:'',
+		method:'POST',
+		success:function(res){
+			console.log(res.data)
+			uni.navigateTo({
+				url:'/pages/personalMessage/makeResume'
+			})
+		}
+	  })
     }
   }
 }

@@ -187,6 +187,13 @@
 			{
 				"navigationBarTitleText" : ""
 			}
+		},
+		{
+			"path" : "pages/personalMessage/makeResume",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
 		}
 		
 		
@@ -214,7 +221,7 @@
 	        "text": "发现"
 	      },
 	      {
-	        // "pagePath": "pages/message/message",
+	        "pagePath": "pages/applicant-msg/applicant-msg",
 	        "iconPath": "static/tabbar/message-gray.png",
 	        "selectedIconPath": "static/tabbar/message-green.png",
 	        "text": "消息"
