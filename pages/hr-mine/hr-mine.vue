@@ -88,7 +88,8 @@ export default {
         { icon: '/static/applicant-mine/applicant-mine/expect.png', label: '招聘信息', route: 'jobExpectation' },
         { icon: '/static/applicant-mine/applicant-mine/must.png', label: '招人必备', route: 'jobPreparation' }
       ],
-      currentTab: 'profile'
+      currentTab: 'profile',
+	  token:'',
     }
   },
   onLoad() {
@@ -97,6 +98,12 @@ export default {
   },
   methods: {
     fetchUserInfo() {
+		uni.request({
+			url:'',
+						header: {
+							'Authorization': `Bearer ${this.token}`,
+						},
+		})
       // TODO: 从后端获取用户信息
       // 示例代码:
       // uni.request({
@@ -108,6 +115,12 @@ export default {
       // })
     },
     fetchUserStats() {
+		uni.request({
+			url:'',
+						header: {
+							'Authorization': `Bearer ${this.token}`,
+						},
+		})
       // TODO: 从后端获取用户统计数据
       // 示例代码:
       // uni.request({

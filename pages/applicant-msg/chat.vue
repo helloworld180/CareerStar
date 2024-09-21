@@ -2,29 +2,30 @@
 <template>
   <view class="chat-page">
     <!-- 顶部栏 -->
-    <view class="top-bar">
-      <view class="back-btn" @click="goBack">
-        <text class="iconfont icon-back"></text>
-      </view>
-      <view class="chat-title">{{ chatInfo.name }}</view>
-      <view class="more-btn">
-        <text class="iconfont icon-more"></text>
-      </view>
-    </view>
+	<view class="top-bar">
+		<view style="display: flex; align-items: center;">
+			<image src="../../static/bacePage.png" @click="goBack"></image>
+			<view class="chat-title">{{ chatInfo.name }} · HR</view>
+		</view>
+		<view style="display: flex; align-items: center;">
+			<image src="../../static/applicant-msg/Phone.png"></image>
+			<image src="../../static/applicant-msg/more.png"></image>
+		</view>
+	</view>
     
     <!-- 聊天内容 -->
     <scroll-view scroll-y class="chat-content" :scroll-top="scrollTop" @scrolltoupper="loadMoreMessages">
-      <view v-for="(message, index) in messages" :key="index" :class="['message-item', { 'self': message.isSelf }]">
-        <image :src="message.avatar" class="avatar"></image>
-        <view class="message-bubble">
-          <text v-if="message.type === 'text'">{{ message.content }}</text>
-          <image v-else-if="message.type === 'image'" :src="message.content" mode="widthFix" @tap="previewImage(message.content)"></image>
-          <view v-else-if="message.type === 'audio'" class="audio-message" @tap="playAudio(message.content)">
-            <text class="iconfont icon-audio"></text>
-            <text>{{ message.duration }}''</text>
-          </view>
-        </view>
-      </view>
+		<view v-for="(message, index) in messages" :key="index" :class="['message-item', { 'self': message.isSelf }]">
+			<image :src="message.avatar" class="avatar"></image>
+			<view class="message-bubble">
+			  <text v-if="message.type === 'text'">{{ message.content }}</text>
+			  <image v-else-if="message.type === 'image'" :src="message.content" mode="widthFix" @tap="previewImage(message.content)"></image>
+			  <view v-else-if="message.type === 'audio'" class="audio-message" @tap="playAudio(message.content)">
+				<text class="iconfont icon-audio"></text>
+				<text>{{ message.duration }}''</text>
+			  </view>
+			</view>
+		</view>
     </scroll-view>
     
     <!-- 输入区域 -->
@@ -59,7 +60,11 @@ export default {
   data() {
     return {
       chatInfo: {},
-      messages: [],
+      messages: [
+		  {
+			  // avatar:'/static/offer.png'
+		  }
+	  ],
       inputMessage: '',
       isVoiceInput: false,
       showOptions: false,
@@ -68,14 +73,19 @@ export default {
     }
   },
   onLoad(options) {
-    this.chatInfo = { id: options.id, name: '徐女士·HR' } // 这里应该根据id获取聊天对象信息
-    this.initWebSocket()
-    this.loadMessages()
+    this.chatInfo = { id: options.id, name: '徐女士' } // 这里应该根据id获取聊天对象信息
+    // this.initWebSocket()
+    // this.loadMessages()
   },
   onUnload() {
     this.closeWebSocket()
   },
   methods: {
+	goBack() {
+		uni.navigateBack({
+			delta: 1
+		});
+	},
     initWebSocket() {
       this.websocket = uni.connectSocket({
         url: 'your_websocket_url',
@@ -216,7 +226,8 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: #f0f2f5;
+  padding: 30rpx 20rpx 40rpx 20rpx;
+  background-color: #69B29D;
 }
 
 .top-bar {
@@ -224,22 +235,25 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 20rpx;
-  background-color: #6998B2;
   color: #fff;
   
+  image {
+	  width: 48rpx; height: 48rpx;
+	  &:last-child {
+		  margin-left: 25rpx;
+	  }
+  }
   .chat-title {
     font-size: 32rpx;
     font-weight: bold;
-  }
-  
-  .back-btn, .more-btn {
-    font-size: 40rpx;
+	margin-left: 20rpx;
   }
 }
 
 .chat-content {
+	background-color: #F6FFF8;
   flex: 1;
-  padding: 20rpx;
+  // padding: 20rpx;
   overflow-y: auto;
 }
 
@@ -251,7 +265,8 @@ export default {
     flex-direction: row-reverse;
     
     .message-bubble {
-      background-color: #95ec69;
+      background-color: #CCEAE1;
+	  border-radius: 20rpx;
     }
   }
   

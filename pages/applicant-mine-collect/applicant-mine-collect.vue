@@ -115,7 +115,8 @@
 						  			recruiterTime:'七日内发布',
 									location:'福州 · 仓山区 · 八一路'
 						  }
-				]
+				],
+				token:''
 			}
 		},
 		onLoad() {
@@ -129,11 +130,25 @@
 				});
 		  },
 		  async fetchRecommendations() {
+			  uni.request({
+			  	url:'',
+			  	header: {
+			  	    'Authorization': `Bearer ${this.token}`,
+			  	},
+			  	
+			  })
 		    // 从后端获取今日推荐数据
 		    // const response = await this.$api.getRecommendations()
 		    // this.recommendationList = response.data
 		  },
 		  async fetchJobs() {
+			  uni.request({
+			  	url:'',
+			  	header: {
+			  	    'Authorization': `Bearer ${this.token}`,
+			  	},
+			  	
+			  })
 		    // 从后端获取职位列表
 		    // const response = await this.$api.getJobs(this.currentSelector)
 		    // this.jobList = response.data

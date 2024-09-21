@@ -99,6 +99,7 @@
 					name:'徐女士',
 					title:' · HR'
 				},
+				token:'',
 			}
 		},
 		methods: {
@@ -116,6 +117,29 @@
 			 closeCompanyInfo() {
 			   this.$refs.wantInfoPopup.close()
 			 },
+			 getAppliDetails() {
+				 uni.request({
+				         url: '你的API地址',
+				         method: 'GET', // 或 'POST'，根据后端要求
+				         header: {
+				             'Authorization': `Bearer ${this.token}`,
+				         },
+				         success: (response) => {
+				             // 假设后端返回的数据格式正确
+				             const data = response.data;
+				             this.resumeImg = data.resumeImg;
+				             this.wantInfo = data.wantInfo;
+				             this.wantDetails = data.wantDetails;
+				             this.hrInfo = data.hrInfo;
+				         },
+				         fail: (error) => {
+				             console.error('请求失败:', error);
+				         }
+				     });
+			 }
+		},
+		onLoad() {
+			// this.getAppliDetails()
 		}
 	}
 </script>

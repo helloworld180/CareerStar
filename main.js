@@ -1,4 +1,6 @@
 import App from './App'
+// import tabBar from '@/components/tabbar-hr/tabbar-hr.vue'
+// Vue.component('tabBar',tabBar)
 
 // #ifndef VUE3
 import Vue from 'vue'

@@ -143,7 +143,8 @@
 						  			recruiterTime:'七日内发布',
 									location:'福州 · 仓山区'
 						  }
-				]
+				],
+				token:'',
 			}
 		},
 		onLoad() {

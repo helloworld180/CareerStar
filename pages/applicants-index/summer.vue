@@ -152,6 +152,7 @@ export default {
 	  bgc2:'#D9D9D9',
 	  fontColor1:'#666666',
 	  fontColor2:'#666666',
+	  token:'',
       jobList: [
 		  {
 			title:'平面设计',
@@ -189,11 +190,25 @@ export default {
 		  });
 	  },
     async fetchRecommendations() {
+		uni.request({
+			url:'',
+			header: {
+			    'Authorization': `Bearer ${this.token}`,
+			},
+			
+		})
       // 从后端获取今日推荐数据
       // const response = await this.$api.getRecommendations()
       // this.recommendationList = response.data
     },
     async fetchJobs() {
+		uni.request({
+			url:'',
+			header: {
+			    'Authorization': `Bearer ${this.token}`,
+			},
+			
+		})
       // 从后端获取职位列表
       // const response = await this.$api.getJobs(this.currentSelector)
       // this.jobList = response.data
