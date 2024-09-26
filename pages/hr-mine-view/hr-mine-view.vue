@@ -7,7 +7,8 @@
 					<image src="../../static/hr-mine/receive/backPage.png" style="width: 48rpx; height: 48rpx;"></image>
 				</view>
 				<!-- text -->
-				<view class="headerText">收藏</view>
+				<view class="headerText">浏览记录</view>
+				<image src="../../static/applicant-mine/view/rubbish.png" style="width: 48rpx; height: 48rpx; margin-left: 10rpx;" @tap="deleteAll"></image>
 			</view>
 			
 			<!-- 顶部搜索栏 -->
@@ -16,7 +17,7 @@
 					<image src="../../static/applicants-index/index/search.png" style="width: 48rpx; height: 48rpx;"></image>
 				</view>
 			  <view class="search-input">
-				<input type="text" placeholder="搜索你的收藏" placeholder-class="placeholder"/>
+				<input type="text" placeholder="搜索你的浏览记录" placeholder-class="placeholder"/>
 			  </view>
 			</view>
 			 
@@ -30,15 +31,6 @@
 			  <view class="selector-item" :class="{ active: currentSelector === 'resume' }" @click="changeSelector('resume')">简历</view>
 			  <view class="selector-item" :class="{ active: currentSelector === 'post' }" @click="changeSelector('post')">帖子</view>
 			  
-			  <!-- 过滤器 -->
-			  <view class="filter-options" v-if="currentSelector === 'resume'">
-				<picker @change="onCityChange" :value="cityIndex" :range="cityList" class="pickerBox" :style="{backgroundColor: bgc1}">
-				  <view class="picker" :style="{color:fontColor1}">{{ cityList[cityIndex] }}</view>
-				</picker>
-				<picker @change="onFilterChange" :value="filterIndex" :range="filterList" class="pickerBox" :style="{backgroundColor: bgc2}">
-				  <view class="picker" :style="{color:fontColor2}">{{ filterList[filterIndex] }}</view>
-				</picker>
-			  </view>
 			</view>
 			
 			<!-- 简历列表 -->
@@ -122,14 +114,20 @@
 					
 			<!-- 招聘信息提示窗 -->
 			<uni-popup ref="alertDialog" type="dialog" style="display: flex; flex-direction: column;">
-				<uni-popup-dialog :type="msgType" cancelText="取消" confirmText="确认" content="确认取消收藏？" @confirm="recruitConfirm"
+				<uni-popup-dialog :type="msgType" cancelText="取消" confirmText="确认" content="确认删除浏览记录？" @confirm="recruitConfirm"
 					@close="recruitClose"></uni-popup-dialog>
 			</uni-popup>
 			
 			<!-- 帖子提示窗 -->
 			<uni-popup ref="alertPost" type="dialog" style="display: flex; flex-direction: column;">
-				<uni-popup-dialog :type="msgType" cancelText="取消" confirmText="确认" content="确认取消收藏？" @confirm="postConfirm"
+				<uni-popup-dialog :type="msgType" cancelText="取消" confirmText="确认" content="确认删除浏览记录？" @confirm="postConfirm"
 					@close="postClose"></uni-popup-dialog>
+			</uni-popup>
+			
+			<!-- 全部删除提示窗 -->
+			<uni-popup ref="alertDelete" type="dialog" style="display: flex; flex-direction: column;">
+				<uni-popup-dialog :type="msgType" cancelText="取消" confirmText="确认" content="确认清空浏览记录？" @confirm="deleteConfirm"
+					@close="deleteClose"></uni-popup-dialog>
 			</uni-popup>
 		
 		</view>
@@ -141,14 +139,6 @@
 		data() {
 			return {
 				currentSelector: 'resume',
-				cityList: [ '上海', '北京', '广州', '深圳'],
-				cityIndex: 0,
-				filterList: ['按轮次排序', '按薪资排序', '按招收人数排序', '按发布时间排序'],
-				filterIndex: 0,
-				bgc1:'#D9D9D9',
-				bgc2:'#D9D9D9',
-				fontColor1:'#666666',
-				fontColor2:'#666666',
 				jobList: [
 						  {
 							title:'平面设计',
@@ -279,32 +269,40 @@
 		        }
 		  },
 		  
-		  			// 取消帖子收藏的函数
-		  			closePost(index) {
-		  				// 后端删除该帖子
-		  				this.$refs.alertPost.open()
-		  				this.indexPost = index;
-		  			},
-		  			postConfirm() {
-		  				console.log('点击确认')
-		  				this.postList.splice(this.indexPost, 1)
-		  			},
-		  			postClose() {
-		  				console.log('点击关闭')
-		  			},
-		  onCityChange(e) {
-		    this.cityIndex = e.detail.value
-		    this.fetchJobs()
-			  console.log(this.cityIndex)
-			  this.bgc1 = '#B8CFED'
-			  this.fontColor1 ='#4D6A96'
-		  },
-		  onFilterChange(e) {
-		    this.filterIndex = e.detail.value
-		    this.fetchJobs()
-			  this.bgc2 = '#B8CFED'
-			  this.fontColor2 ='#4D6A96'
-		  }
+			// 取消帖子收藏的函数
+			closePost(index) {
+				// 后端删除该帖子
+				this.$refs.alertPost.open()
+				this.indexPost = index;
+			},
+			postConfirm() {
+				console.log('点击确认')
+				this.postList.splice(this.indexPost, 1)
+			},
+			postClose() {
+				console.log('点击关闭')
+			},
+			
+			// 删除所有浏览记录
+			deleteAll() {
+			  this.$refs.alertDelete.open()
+			},
+			deleteConfirm() {
+			  console.log('点击确认')
+			  if (this.currentSelector === 'resume') {
+				  this.jobList = []
+				  // 传给后端
+				  
+			  }else if (this.currentSelector === 'post') {
+				  this.postList = []
+				  // 传给后端
+				  
+			  }
+			},
+			deleteClose() {
+				console.log('点击关闭')
+			},
+			
 		}
 	}
 </script>
@@ -402,27 +400,6 @@
 .selector-item.active {
   color: #000849;
   border-bottom-color: #4D6A96;
-}
-
-.filter-options {
-  display: flex;
-  justify-content: space-between;
-}
-
-.picker {
-  font-size: 20rpx;
-}
-
-.pickerBox {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: auto;
-	height: 40rpx;
-	border-radius: 30rpx;
-	padding: 0 15rpx;
-	margin: 0 10rpx;
-	background-color: #D9D9D9;
 }
 	
 .job-list {

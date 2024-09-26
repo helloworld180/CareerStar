@@ -78,15 +78,15 @@ export default {
         id: '123456'
       },
       userStats: [
-        { value: 0, label: '接收', route:'receive' },
-        { value: 0, label: '收藏', route:'collect' },
         { value: 0, label: '关注', route:'attention' },
+        { value: 0, label: '粉丝', route:'fans' },
+        { value: 0, label: '收藏', route:'collect' },
         { value: 0, label: '浏览', route:'view' }
       ],
       functions: [
-        { icon: '/static/applicant-mine/applicant-mine/ressume.png', label: '我的信息', route: 'resume' },
-        { icon: '/static/applicant-mine/applicant-mine/expect.png', label: '招聘信息', route: 'jobExpectation' },
-        { icon: '/static/applicant-mine/applicant-mine/must.png', label: '招人必备', route: 'jobPreparation' }
+        { icon: '/static/applicant-mine/applicant-mine/ressume.png', label: '我的信息', route: 'myMsg' },
+        { icon: '/static/applicant-mine/applicant-mine/expect.png', label: '接受简历', route: 'acceptResume' },
+        { icon: '/static/applicant-mine/applicant-mine/must.png', label: '我的帖子', route: 'myPost' }
       ],
       currentTab: 'profile',
 	  token:'',

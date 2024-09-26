@@ -75,7 +75,17 @@
 					</view>
 				</view>
 			</view>
+			
+			
+			
 		</view>
+	
+		<!-- 招聘信息提示窗 -->
+		<uni-popup ref="alertDialog" type="dialog" style="display: flex; flex-direction: column;">
+			<uni-popup-dialog :type="msgType" cancelText="取消" confirmText="确认" content="确认删除该投递信息？" @confirm="recruitConfirm"
+				@close="recruitClose"></uni-popup-dialog>
+		</uni-popup>
+		
 	</view>
 </template>
 
@@ -92,6 +102,7 @@
 				bgc2:'#D9D9D9',
 				fontColor1:'#666666',
 				fontColor2:'#666666',
+				index: 0,
 				jobList: [
 						  {
 							title:'平面设计',
@@ -153,10 +164,21 @@
 		    // const response = await this.$api.getJobs(this.currentSelector)
 		    // this.jobList = response.data
 		  },
+		  
+		  // 取消招聘信息收藏的函数
 		  deleteJobList(index) {
-		    this.jobList.splice(index, 1)
+			this.$refs.alertDialog.open()
+			this.index = index;
 		    // 可以在这里调用后端接口，同步删除操作
 		  },
+		  recruitConfirm() {
+			console.log('点击确认')
+			this.jobList.splice(this.index, 1)
+		  },
+		  recruitClose() {
+			console.log('点击关闭')
+		  },
+		  
 		  changeSelector(selector) {
 		    this.currentSelector = selector
 		    this.fetchJobs()

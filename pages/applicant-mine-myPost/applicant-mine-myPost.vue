@@ -4,10 +4,10 @@
 		<view class="header">
 			<view style="display: flex; align-items: center;">
 				<view class="backIcon" @click="backPage">
-					<image src="../../static/hr-mine/receive/backPage.png" style="width: 48rpx; height: 48rpx;"></image>
+					<image src="../../static/applicant-mine/deliver/backPage.png" style="width: 48rpx; height: 48rpx;"></image>
 				</view>
 				<!-- text -->
-				<view class="headerText">收藏</view>
+				<view class="headerText">我的帖子</view>
 			</view>
 			
 			<!-- 顶部搜索栏 -->
@@ -16,7 +16,7 @@
 					<image src="../../static/applicants-index/index/search.png" style="width: 48rpx; height: 48rpx;"></image>
 				</view>
 			  <view class="search-input">
-				<input type="text" placeholder="搜索你的收藏" placeholder-class="placeholder"/>
+				<input type="text" placeholder="搜索你的发布" placeholder-class="placeholder"/>
 			  </view>
 			</view>
 			 
@@ -27,23 +27,38 @@
 		<view class="remain">
 			<!-- 职位列表选择器 -->
 			<view class="job-list-selector">
-			  <view class="selector-item" :class="{ active: currentSelector === 'resume' }" @click="changeSelector('resume')">简历</view>
-			  <view class="selector-item" :class="{ active: currentSelector === 'post' }" @click="changeSelector('post')">帖子</view>
-			  
-			  <!-- 过滤器 -->
-			  <view class="filter-options" v-if="currentSelector === 'resume'">
-				<picker @change="onCityChange" :value="cityIndex" :range="cityList" class="pickerBox" :style="{backgroundColor: bgc1}">
-				  <view class="picker" :style="{color:fontColor1}">{{ cityList[cityIndex] }}</view>
-				</picker>
-				<picker @change="onFilterChange" :value="filterIndex" :range="filterList" class="pickerBox" :style="{backgroundColor: bgc2}">
-				  <view class="picker" :style="{color:fontColor2}">{{ filterList[filterIndex] }}</view>
-				</picker>
-			  </view>
+				<view class="selector-item" :class="{ active: currentSelector === 'post' }" @click="changeSelector('post')">帖子</view>
+				<view class="selector-item" :class="{ active: currentSelector === 'deliver' }" @click="changeSelector('deliver')">投递</view>
 			</view>
 			
-			<!-- 简历列表 -->
-			<view class="job-list" v-if="currentSelector === 'resume'">
-				<view class="job-item" v-for="(job, index) in jobList" :key="index">
+			<!-- 帖子列表 -->
+			<view class="job-list" v-if="currentSelector === 'post'">
+				<view class="post-card" v-for="(post, index) in postList" :key="index">
+					
+					<view class="user-info">
+						<image class="avatar" :src="post.avatarUrl" mode="aspectFill"></image>
+						<view class="name-time">
+							<text class="username">{{ post.username }} · 求职者</text>
+							<text class="post-time">发布于{{ post.postTime }}</text>
+						</view>
+						<view class="close-btn" @tap="closePost(index)">×</view>
+					</view>
+					
+					<view class="post-content">
+						<text class="title">{{ post.title }}</text>
+						<text class="content">{{ truncatedContent(post.content) }}</text>
+					</view>
+					
+					<view class="post-detail">
+						<text>查看详情</text>
+					</view>
+					
+				</view>
+			</view>
+			
+			<!-- 投递列表 -->
+			<view class="job-list" v-else-if="currentSelector === 'deliver'">
+				<view class="job-item" v-for="(job, index) in jobList" :key="index" @click="gotoAppliDetails">
 					<!-- 第一列 -->
 					<view>
 						<!--  第一行 --> 
@@ -91,64 +106,37 @@
 							<view class="delete-btn" @click="deleteJobList(index)">X</view>
 						</view>
 					</view>
-					
 				</view>
 			</view>
-		
-			<!-- 帖子列表 -->
-			<view class="job-list" v-else-if="currentSelector === 'post'">
-				<view class="post-card" v-for="(post, index) in postList" :key="index">
-					
-					<view class="user-info">
-						<image class="avatar" :src="post.avatarUrl" mode="aspectFill"></image>
-						<view class="name-time">
-							<text class="username">{{ post.username }} · 求职者</text>
-							<text class="post-time">发布于{{ post.postTime }}</text>
-						</view>
-						<view class="close-btn" @tap="closePost(index)">×</view>
-					</view>
-					
-					<view class="post-content">
-						<text class="title">{{ post.title }}</text>
-						<text class="content">{{ truncatedContent(post.content) }}</text>
-					</view>
-					
-					<view class="post-detail">
-						<text>查看详情</text>
-					</view>
-					
-				</view>
-			</view>
-					
-			<!-- 招聘信息提示窗 -->
+
+			<!-- 帖子提示窗 -->
+			<uni-popup ref="alertPost" type="dialog" style="display: flex; flex-direction: column;">
+				<uni-popup-dialog :type="msgType" cancelText="取消" confirmText="确认" content="确认删除该帖子？" @confirm="postConfirm"
+					@close="postClose"></uni-popup-dialog>
+			</uni-popup>
+			
+			<!-- 投递提示窗 -->
 			<uni-popup ref="alertDialog" type="dialog" style="display: flex; flex-direction: column;">
-				<uni-popup-dialog :type="msgType" cancelText="取消" confirmText="确认" content="确认取消收藏？" @confirm="recruitConfirm"
+				<uni-popup-dialog :type="msgType" cancelText="取消" confirmText="确认" content="确认删除该投递信息？" @confirm="recruitConfirm"
 					@close="recruitClose"></uni-popup-dialog>
 			</uni-popup>
 			
-			<!-- 帖子提示窗 -->
-			<uni-popup ref="alertPost" type="dialog" style="display: flex; flex-direction: column;">
-				<uni-popup-dialog :type="msgType" cancelText="取消" confirmText="确认" content="确认取消收藏？" @confirm="postConfirm"
-					@close="postClose"></uni-popup-dialog>
-			</uni-popup>
-		
 		</view>
 	</view>
 </template>
 
 <script>
 	export default {
+		// 组件通过props接收帖子ID，并在created钩子中从后端获取帖子详细信息。
+		props: {
+		    postId: {
+		      type: String,
+		      required: true
+		    }
+		  },
 		data() {
 			return {
-				currentSelector: 'resume',
-				cityList: [ '上海', '北京', '广州', '深圳'],
-				cityIndex: 0,
-				filterList: ['按轮次排序', '按薪资排序', '按招收人数排序', '按发布时间排序'],
-				filterIndex: 0,
-				bgc1:'#D9D9D9',
-				bgc2:'#D9D9D9',
-				fontColor1:'#666666',
-				fontColor2:'#666666',
+				currentSelector: 'post',
 				jobList: [
 						  {
 							title:'平面设计',
@@ -166,7 +154,7 @@
 							location:'福州 · 仓山区'
 						  },
 						  {
-						  			title:'平面设计',
+						  			title:'设计',
 						  			salary:'6-8k',
 						  			applySex:'女',
 						  			applyAge:'24岁',
@@ -182,6 +170,8 @@
 						  }
 				],
 				token:'',
+				index: 0,
+				indexPost: 0,
 				postList:[
 					{
 						avatarUrl:'/static/offer.png',
@@ -200,8 +190,6 @@
 						content:'收到后返回为oh端午活动后i为hi都和我二手动触发到i哈佛导师符号底河湿地和hi哦好i很多覅后卫和覅oh为哈佛i为',
 					},
 				],
-				index: 0,
-				indexPost: 0,
 			}
 		},
 		onLoad() {
@@ -226,28 +214,29 @@
 				});
 		  },
 		  async fetchRecommendations() {
+			  uni.request({
+			  	url:'',
+			  	header: {
+			  	    'Authorization': `Bearer ${this.token}`,
+			  	},
+			  })
 		    // 从后端获取今日推荐数据
 		    // const response = await this.$api.getRecommendations()
 		    // this.recommendationList = response.data
-			uni.request({
-				url:'',
-				header: {
-				    'Authorization': `Bearer ${this.token}`,
-				},
-			})
 		  },
 		  async fetchJobs() {
+			  uni.request({
+			  	url:'',
+			  	header: {
+			  	    'Authorization': `Bearer ${this.token}`,
+			  	},
+			  })
 		    // 从后端获取职位列表
 		    // const response = await this.$api.getJobs(this.currentSelector)
 		    // this.jobList = response.data
-			uni.request({
-				url:'',
-				header: {
-				    'Authorization': `Bearer ${this.token}`,
-				},
-			})
 		  },
-		  // 取消招聘信息收藏的函数
+		  
+		  // 删除投递帖子的函数
 		  deleteJobList(index) {
 		  			  this.$refs.alertDialog.open()
 		  			  this.index = index;
@@ -265,6 +254,11 @@
 		    this.currentSelector = selector
 		    this.fetchJobs()
 		  },
+		  changeSelector(selector) {
+		    this.currentSelector = selector
+		    this.fetchJobs()
+		  },
+		  
 		  // 帖子的函数
 		  async fetchPostData() {
 		        try {
@@ -277,34 +271,21 @@
 		        } catch (error) {
 		          console.error('获取帖子数据失败', error)
 		        }
-		  },
-		  
-		  			// 取消帖子收藏的函数
-		  			closePost(index) {
-		  				// 后端删除该帖子
-		  				this.$refs.alertPost.open()
-		  				this.indexPost = index;
-		  			},
-		  			postConfirm() {
-		  				console.log('点击确认')
-		  				this.postList.splice(this.indexPost, 1)
-		  			},
-		  			postClose() {
-		  				console.log('点击关闭')
-		  			},
-		  onCityChange(e) {
-		    this.cityIndex = e.detail.value
-		    this.fetchJobs()
-			  console.log(this.cityIndex)
-			  this.bgc1 = '#B8CFED'
-			  this.fontColor1 ='#4D6A96'
-		  },
-		  onFilterChange(e) {
-		    this.filterIndex = e.detail.value
-		    this.fetchJobs()
-			  this.bgc2 = '#B8CFED'
-			  this.fontColor2 ='#4D6A96'
-		  }
+		      },
+			  
+			  // 取消帖子收藏的函数
+			  closePost(index) {
+			  	// 后端删除该帖子
+			  	this.$refs.alertPost.open()
+			  	this.indexPost = index;
+			  },
+			  postConfirm() {
+			  	console.log('点击确认')
+			  	this.postList.splice(this.indexPost, 1)
+			  },
+			  postClose() {
+			  	console.log('点击关闭')
+			  },
 		}
 	}
 </script>
@@ -317,7 +298,7 @@
 	flex: 1;
 	overflow-y: auto;
 	
-	background-color: #6998B2;
+	background-color: #69B29D;
 	/* min-height: 100vh; */
 	height: 100vh;
 	padding: 60rpx 20rpx 0 20rpx;
@@ -330,7 +311,7 @@
 	font-size: 36rpx;
 	color: #FFFFFF;
 	font-weight: bold;
-	margin-left: 25rpx;
+	margin-left: 15rpx;
 }
 .search-icon {
 	width: 48rpx;
@@ -374,7 +355,6 @@
 	/* 占据剩余页面 */
 	flex-direction: column;
 	flex: 1;
-
 	border-radius: 20rpx;
 	margin-top: 20rpx;
 	padding: 0 0 15rpx 0;
@@ -388,7 +368,7 @@
   justify-content: space-around;
   align-items: center;
   border-radius: 20rpx;
-  background-color: rgba(214, 224, 238, 0.42);
+  background-color: rgba(214, 238, 231, 0.42);
 }
 
 .selector-item {
@@ -400,35 +380,13 @@
 }
 
 .selector-item.active {
-  color: #000849;
-  border-bottom-color: #4D6A96;
-}
-
-.filter-options {
-  display: flex;
-  justify-content: space-between;
-}
-
-.picker {
-  font-size: 20rpx;
-}
-
-.pickerBox {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: auto;
-	height: 40rpx;
-	border-radius: 30rpx;
-	padding: 0 15rpx;
-	margin: 0 10rpx;
-	background-color: #D9D9D9;
+  color: #004934;
+  border-bottom-color: #69B29D;
 }
 	
 .job-list {
   padding: 0 15rpx;
 }
-
 .job-item {
 	display: flex;
 	height: auto;
@@ -499,6 +457,7 @@
   text-align: center;
   color: #4D6A96;
 }
+
 /* 帖子的样式 */
 .post-card {
   height: auto;
@@ -561,6 +520,7 @@
 	display: flex;
 	justify-content: flex-end;
 	font-size: 26rpx;
-	color: #6998B2;
+	color: #5BA38E;
 }
+
 </style>

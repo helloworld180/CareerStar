@@ -38,9 +38,9 @@
 			
 			<!-- 职位列表 -->
 			<view class="job-list">
-				<view class="job-item" v-for="(job, index) in jobList" :key="index" @click="gotoAppliDetails">
+				<view class="job-item" v-for="(job, index) in jobList" :key="index">
 					<!-- 第一列 -->
-					<view>
+					<view  @click="gotoAppliDetails">
 						<!--  第一行 --> 
 						<view class="job-info">
 							<view style="width: 40rpx; height: 40rpx; border-radius: 50%; background-color: #edf3f4; box-shadow: inset 0 3rpx 6rpx 1rpx rgba(0, 0, 0, 0.3);"></view>
@@ -69,14 +69,14 @@
 					</view>
 					
 					<!-- 第二列 -->
-					<view style="width: 2rpx; background-color: #B9E3D7; margin-left: 5rpx;"></view>
+					<view style="width: 2rpx; background-color: #B9E3D7; margin-left: 5rpx;"  @click="gotoAppliDetails"></view>
 					
 					<!-- 第三列 -->
 					<view style="margin-left: 25rpx;">
 						<!-- 第一行 -->
-						<view style="color: #001549; font-size: 28rpx; font-weight: bold; margin-top: 20rpx;">求职意向</view>
+						<view style="color: #001549; font-size: 28rpx; font-weight: bold; margin-top: 20rpx;"  @click="gotoAppliDetails">求职意向</view>
 						<!-- 第二行 -->
-						<view style="color: #001549; font-size: 28rpx; font-weight: bold; margin-top: 15rpx;">
+						<view style="color: #001549; font-size: 28rpx; font-weight: bold; margin-top: 15rpx;"  @click="gotoAppliDetails">
 							<view>意向薪资：{{ job.wantSalary }}</view>
 							<view>意向城市：{{ job.wantCity }}</view>
 						</view>
@@ -89,6 +89,11 @@
 					
 					
 				</view>
+			</view>
+			
+			<!-- 固定在右下角的加号按钮 -->
+			<view class="fab-button" @click="goToPostPage">
+				<view class="fab-icon"></view>
 			</view>
 		</view>
 		
@@ -128,7 +133,7 @@
 							location:'福州 · 仓山区'
 						  },
 						  {
-						  			title:'平面设计',
+						  			title:'设计',
 						  			salary:'6-8k',
 						  			applySex:'女',
 						  			applyAge:'24岁',
@@ -197,7 +202,12 @@
 		    this.fetchJobs()
 			  this.bgc2 = '#B9CCE3'
 			  this.fontColor2 ='#5B74A3'
-		  }
+		  },
+		  goToPostPage() {
+		  		  uni.navigateTo({
+		  		  	url:'/pages/hr-index/createPost'
+		  		  })
+		  },
 		}
 	}
 </script>
@@ -384,5 +394,30 @@
 	font-size: 24rpx;
   text-align: center;
   color: #4D6A96;
+}
+.fab-button {
+  position: fixed;
+  right: 30rpx;
+  bottom: 130rpx;
+  width: 120rpx;
+  height: 120rpx;
+  background-color: #6998B2;  
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0rpx 8rpx 10rpx 2rpx rgba(0, 0, 0, 0.3);
+  z-index: 999;
+  overflow: hidden;
+}
+
+.fab-button::after {
+  content: "+";
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #FFFFFF;
+  font-size: 110rpx;
 }
 </style>

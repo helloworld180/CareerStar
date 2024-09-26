@@ -86,7 +86,7 @@ export default {
       functions: [
         { icon: '/static/applicant-mine/applicant-mine/ressume.png', label: '我的简历', route: 'resume' },
         { icon: '/static/applicant-mine/applicant-mine/expect.png', label: '我的投递', route: 'deliver' },
-        { icon: '/static/applicant-mine/applicant-mine/must.png', label: '我的帖子', route: 'jobPreparation' }
+        { icon: '/static/applicant-mine/applicant-mine/must.png', label: '我的帖子', route: 'myPost' }
       ],
       currentTab: 'profile',
 	  token:'',

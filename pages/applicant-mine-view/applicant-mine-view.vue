@@ -4,10 +4,11 @@
 		<view class="header">
 			<view style="display: flex; align-items: center;">
 				<view class="backIcon" @click="backPage">
-					<image src="../../static/hr-mine/receive/backPage.png" style="width: 48rpx; height: 48rpx;"></image>
+					<image src="../../static/applicant-mine/deliver/backPage.png" style="width: 48rpx; height: 48rpx;"></image>
 				</view>
 				<!-- text -->
-				<view class="headerText">收藏</view>
+				<view class="headerText">浏览记录</view>
+				<image src="../../static/applicant-mine/view/rubbish.png" style="width: 48rpx; height: 48rpx; margin-left: 10rpx;" @tap="deleteAll"></image>
 			</view>
 			
 			<!-- 顶部搜索栏 -->
@@ -16,7 +17,7 @@
 					<image src="../../static/applicants-index/index/search.png" style="width: 48rpx; height: 48rpx;"></image>
 				</view>
 			  <view class="search-input">
-				<input type="text" placeholder="搜索你的收藏" placeholder-class="placeholder"/>
+				<input type="text" placeholder="搜索你的浏览记录" placeholder-class="placeholder"/>
 			  </view>
 			</view>
 			 
@@ -27,13 +28,13 @@
 		<view class="remain">
 			<!-- 职位列表选择器 -->
 			<view class="job-list-selector">
-			  <view class="selector-item" :class="{ active: currentSelector === 'resume' }" @click="changeSelector('resume')">简历</view>
-			  <view class="selector-item" :class="{ active: currentSelector === 'post' }" @click="changeSelector('post')">帖子</view>
+				<view class="selector-item" :class="{ active: currentSelector === 'recruitInfo' }" @click="changeSelector('recruitInfo')">招聘信息</view>
+				<view class="selector-item" :class="{ active: currentSelector === 'post' }" @click="changeSelector('post')">帖子</view>
 			  
 			  <!-- 过滤器 -->
-			  <view class="filter-options" v-if="currentSelector === 'resume'">
-				<picker @change="onCityChange" :value="cityIndex" :range="cityList" class="pickerBox" :style="{backgroundColor: bgc1}">
-				  <view class="picker" :style="{color:fontColor1}">{{ cityList[cityIndex] }}</view>
+			  <view class="filter-options" v-if="currentSelector === 'recruitInfo'">
+				<picker @change="onCityChange" :value="cityIndex" :range="salaryList" class="pickerBox" :style="{backgroundColor: bgc1}">
+				  <view class="picker" :style="{color:fontColor1}">{{ salaryList[cityIndex] }}</view>
 				</picker>
 				<picker @change="onFilterChange" :value="filterIndex" :range="filterList" class="pickerBox" :style="{backgroundColor: bgc2}">
 				  <view class="picker" :style="{color:fontColor2}">{{ filterList[filterIndex] }}</view>
@@ -41,57 +42,38 @@
 			  </view>
 			</view>
 			
-			<!-- 简历列表 -->
-			<view class="job-list" v-if="currentSelector === 'resume'">
+			<!-- 招聘信息列表 -->
+			<view class="job-list" v-if="currentSelector === 'recruitInfo'">
 				<view class="job-item" v-for="(job, index) in jobList" :key="index">
-					<!-- 第一列 -->
-					<view>
-						<!--  第一行 --> 
-						<view class="job-info">
-							<view style="width: 40rpx; height: 40rpx; border-radius: 50%; background-color: #edf3f4; box-shadow: inset 0 3rpx 6rpx 1rpx rgba(0, 0, 0, 0.3);"></view>
-							<view class="jobTitle">求职：{{ job.title }}</view>	
+					<!-- 第一行 -->
+					<view class="job-info">
+						<view style="display: flex;">
+							<view style="width: 40rpx; height: 40rpx; border-radius: 50%; background-color: #E4F4F0; box-shadow: inset 0 3rpx 6rpx 1rpx rgba(0, 0, 0, 0.3);"></view>
+							<view class="jobTitle">{{ job.title }}</view>
 						</view>
-						<!-- 第二行 求职者情况 -->
-						<view class="applyInfo">
-							<text>{{ job.applySex }}</text>
-							<text style="margin-left: 15rpx;">{{ job.applyAge }}</text>
-							<text style="margin-left: 15rpx;">{{ job.applySchool }}</text>
-							<text style="margin-left: 15rpx;">{{ job.applyMaster }}</text>
-						</view>
-						<!-- 第三行 tag -->
-						<view class="job-tags">
-							<text v-for="(tag, tagIndex) in job.tags" :key="tagIndex">{{ tag }}</text>
-						</view>
-						<!-- 第四行 HR -->
-						<view class="recruiter-info">
-							<image :src="job.recruiterAvatar" mode="aspectFill"></image>
-							<view style="margin-left: 20rpx;">
-								<view style="font-size: 28rpx; color: #001549; font-weight: bold;">{{ job.recruiterName }} · 求职</view>
-								
-								<view style="font-size: 24rpx; color: #4D6A96; margin-top: 5rpx;">{{ job.recruiterTime }}</view>
+						<view class="job-salary">{{ job.salary }}</view>
+					</view>
+					<!-- 第二行 公司名称 -->
+					<view class="companyInfo">
+						<text>{{ job.companyName }}</text>
+						<text style="margin-left: 20rpx;">{{ job.companySize }}</text>
+					</view>
+					<!-- 第三行 tag -->
+					<view class="job-tags">
+						<text v-for="(tag, tagIndex) in job.tags" :key="tagIndex">{{ tag }}</text>
+					</view>
+					<!-- 第四行 HR -->
+					<view class="recruiter-info">
+						<image :src="job.recruiterAvatar" mode="aspectFill"></image>
+						<view style="margin-left: 20rpx;">
+							<view style="font-size: 28rpx; color: #004934; font-weight: bold;">{{ job.recruiterName }} · HR</view>
+							<view style="display: flex; justify-content: space-between; align-items: center; margin-top: 5rpx;">
+								<view style="font-size: 24rpx; color: #5BA38E;">{{ job.recruiterTime }}</view>
+								<view style="font-size: 24rpx; color: #5BA38E; margin-left: 35%;">{{ job.location }}</view>
+								<view class="delete-btn" @click="deleteJobList(index)">X</view>
 							</view>
 						</view>
 					</view>
-					
-					<!-- 第二列 -->
-					<view style="width: 2rpx; background-color: #B9E3D7; margin-left: 5rpx;"></view>
-					
-					<!-- 第三列 -->
-					<view style="margin-left: 25rpx;">
-						<!-- 第一行 -->
-						<view style="color: #001549; font-size: 28rpx; font-weight: bold; margin-top: 20rpx;">求职意向</view>
-						<!-- 第二行 -->
-						<view style="color: #001549; font-size: 28rpx; font-weight: bold; margin-top: 15rpx;">
-							<view>意向薪资：{{ job.wantSalary }}</view>
-							<view>意向城市：{{ job.wantCity }}</view>
-						</view>
-						<!-- 第三行 -->
-						<view style="display: flex; margin-top: 70rpx; margin-left: 35rpx;">
-							<view style="font-size: 24rpx; color: #4D6A96;">{{ job.location }}</view>
-							<view class="delete-btn" @click="deleteJobList(index)">X</view>
-						</view>
-					</view>
-					
 				</view>
 			</view>
 		
@@ -119,19 +101,25 @@
 					
 				</view>
 			</view>
-					
+		
 			<!-- 招聘信息提示窗 -->
 			<uni-popup ref="alertDialog" type="dialog" style="display: flex; flex-direction: column;">
-				<uni-popup-dialog :type="msgType" cancelText="取消" confirmText="确认" content="确认取消收藏？" @confirm="recruitConfirm"
+				<uni-popup-dialog :type="msgType" cancelText="取消" confirmText="确认" content="确认删除浏览记录？" @confirm="recruitConfirm"
 					@close="recruitClose"></uni-popup-dialog>
 			</uni-popup>
 			
 			<!-- 帖子提示窗 -->
 			<uni-popup ref="alertPost" type="dialog" style="display: flex; flex-direction: column;">
-				<uni-popup-dialog :type="msgType" cancelText="取消" confirmText="确认" content="确认取消收藏？" @confirm="postConfirm"
+				<uni-popup-dialog :type="msgType" cancelText="取消" confirmText="确认" content="确认删除浏览记录？" @confirm="postConfirm"
 					@close="postClose"></uni-popup-dialog>
 			</uni-popup>
-		
+			
+			<!-- 全部删除提示窗 -->
+			<uni-popup ref="alertDelete" type="dialog" style="display: flex; flex-direction: column;">
+				<uni-popup-dialog :type="msgType" cancelText="取消" confirmText="确认" content="确认清空浏览记录？" @confirm="deleteConfirm"
+					@close="deleteClose"></uni-popup-dialog>
+			</uni-popup>
+			
 		</view>
 	</view>
 </template>
@@ -140,10 +128,10 @@
 	export default {
 		data() {
 			return {
-				currentSelector: 'resume',
-				cityList: [ '上海', '北京', '广州', '深圳'],
+				currentSelector: 'recruitInfo',
+				salaryList: [  '薪资', '3-5k', '5-7k', '7-10k', '10k以上' ],
 				cityIndex: 0,
-				filterList: ['按轮次排序', '按薪资排序', '按招收人数排序', '按发布时间排序'],
+				filterList: ['按轮次排序', 'A轮', 'B轮' ],
 				filterIndex: 0,
 				bgc1:'#D9D9D9',
 				bgc2:'#D9D9D9',
@@ -153,32 +141,24 @@
 						  {
 							title:'平面设计',
 							salary:'6-8k',
-							applySex:'女',
-							applyAge:'24岁',
-							applySchool:'福州大学',
-							applyMaster:'工商管理专业',
+							companyName:'职星星茶饮',
+							companySize:'1000-9000人',
 							tags:[ '本科', '包装设计', '广告设计'],
-							wantSalary:'8-9k',
-							wantCity:'福州',
-							recruiterAvatar:'/static/offer.png',
+							recruiterAvatar:'/static/applicants-index/index/名企大厂.png',
 							recruiterName:'徐女士',
 							recruiterTime:'七日内发布',
-							location:'福州 · 仓山区'
+							location:'福州 · 仓山区 · 八一路'
 						  },
 						  {
-						  			title:'平面设计',
+						  			title:'设计',
 						  			salary:'6-8k',
-						  			applySex:'女',
-						  			applyAge:'24岁',
-									applySchool:'福州大学',
-									applyMaster:'工商管理专业',
+						  			companyName:'职星星茶饮',
+						  			companySize:'1000-9000人',
 						  			tags:[ '本科', '包装设计', '广告设计'],
-									wantSalary:'8-9k',
-									wantCity:'福州',
-						  			recruiterAvatar:'/static/offer.png',
+						  			recruiterAvatar:'/static/applicants-index/index/名企大厂.png',
 						  			recruiterName:'徐女士',
 						  			recruiterTime:'七日内发布',
-									location:'福州 · 仓山区'
+									location:'福州 · 仓山区 · 八一路'
 						  }
 				],
 				token:'',
@@ -226,41 +206,42 @@
 				});
 		  },
 		  async fetchRecommendations() {
+			  uni.request({
+			  	url:'',
+			  	header: {
+			  	    'Authorization': `Bearer ${this.token}`,
+			  	},
+			  })
 		    // 从后端获取今日推荐数据
 		    // const response = await this.$api.getRecommendations()
 		    // this.recommendationList = response.data
-			uni.request({
-				url:'',
-				header: {
-				    'Authorization': `Bearer ${this.token}`,
-				},
-			})
 		  },
 		  async fetchJobs() {
+			  uni.request({
+			  	url:'',
+			  	header: {
+			  	    'Authorization': `Bearer ${this.token}`,
+			  	},
+			  })
 		    // 从后端获取职位列表
 		    // const response = await this.$api.getJobs(this.currentSelector)
 		    // this.jobList = response.data
-			uni.request({
-				url:'',
-				header: {
-				    'Authorization': `Bearer ${this.token}`,
-				},
-			})
 		  },
+		  
 		  // 取消招聘信息收藏的函数
 		  deleteJobList(index) {
-		  			  this.$refs.alertDialog.open()
-		  			  this.index = index;
+			  this.$refs.alertDialog.open()
+			  this.index = index;
 		    // 可以在这里调用后端接口，同步删除操作
 		  },
 		  recruitConfirm() {
-		  				console.log('点击确认')
-		  				this.jobList.splice(this.index, 1)
-		  			},
-		  			recruitClose() {
-		  				console.log('点击关闭')
-		  			},
-		  			
+				console.log('点击确认')
+				this.jobList.splice(this.index, 1)
+			},
+			recruitClose() {
+				console.log('点击关闭')
+			},
+			
 		  changeSelector(selector) {
 		    this.currentSelector = selector
 		    this.fetchJobs()
@@ -279,31 +260,53 @@
 		        }
 		  },
 		  
-		  			// 取消帖子收藏的函数
-		  			closePost(index) {
-		  				// 后端删除该帖子
-		  				this.$refs.alertPost.open()
-		  				this.indexPost = index;
-		  			},
-		  			postConfirm() {
-		  				console.log('点击确认')
-		  				this.postList.splice(this.indexPost, 1)
-		  			},
-		  			postClose() {
-		  				console.log('点击关闭')
-		  			},
+			// 取消帖子收藏的函数
+			closePost(index) {
+				// 后端删除该帖子
+				this.$refs.alertPost.open()
+				this.indexPost = index;
+			},
+			postConfirm() {
+				console.log('点击确认')
+				this.postList.splice(this.indexPost, 1)
+			},
+			postClose() {
+				console.log('点击关闭')
+			},
+		  
+		  // 删除所有浏览记录
+		  deleteAll() {
+			  this.$refs.alertDelete.open()
+		  },
+		  deleteConfirm() {
+			  console.log('点击确认')
+			  if (this.currentSelector === 'recruitInfo') {
+				  this.jobList = []
+				  // 传给后端
+				  
+			  }else if (this.currentSelector === 'post') {
+				  this.postList = []
+				  // 传给后端
+				  
+			  }
+		  },
+		  deleteClose() {
+		  	console.log('点击关闭')
+		  },
+		  
+		  // 过滤器的函数
 		  onCityChange(e) {
 		    this.cityIndex = e.detail.value
 		    this.fetchJobs()
 			  console.log(this.cityIndex)
-			  this.bgc1 = '#B8CFED'
-			  this.fontColor1 ='#4D6A96'
+			  this.bgc1 = '#B9E3D7'
+			  this.fontColor1 ='#5BA38E'
 		  },
 		  onFilterChange(e) {
 		    this.filterIndex = e.detail.value
 		    this.fetchJobs()
-			  this.bgc2 = '#B8CFED'
-			  this.fontColor2 ='#4D6A96'
+			  this.bgc2 = '#B9E3D7'
+			  this.fontColor2 ='#5BA38E'
 		  }
 		}
 	}
@@ -317,7 +320,7 @@
 	flex: 1;
 	overflow-y: auto;
 	
-	background-color: #6998B2;
+	background-color: #69B29D;
 	/* min-height: 100vh; */
 	height: 100vh;
 	padding: 60rpx 20rpx 0 20rpx;
@@ -330,7 +333,7 @@
 	font-size: 36rpx;
 	color: #FFFFFF;
 	font-weight: bold;
-	margin-left: 25rpx;
+	margin-left: 20rpx;
 }
 .search-icon {
 	width: 48rpx;
@@ -388,7 +391,7 @@
   justify-content: space-around;
   align-items: center;
   border-radius: 20rpx;
-  background-color: rgba(214, 224, 238, 0.42);
+  background-color: rgba(214, 238, 231, 0.42);
 }
 
 .selector-item {
@@ -400,8 +403,8 @@
 }
 
 .selector-item.active {
-  color: #000849;
-  border-bottom-color: #4D6A96;
+  color: #004934;
+  border-bottom-color: #69B29D;
 }
 
 .filter-options {
@@ -430,10 +433,9 @@
 }
 
 .job-item {
-	display: flex;
 	height: auto;
 	border-radius: 40rpx;
-	background-image: linear-gradient( to bottom, rgba(157, 214, 232, 0.62), #F1F9FF);
+	background-image: linear-gradient( to bottom, rgba(157, 232, 211, 0.62), #F1FFF4);
 	margin-top: 20rpx;
 	border-bottom: 1rpx solid #eee;
 	padding: 20rpx 30rpx;
@@ -446,18 +448,19 @@
 
 .job-info {
   display: flex;
+  justify-content: space-between;
 }
 
 .jobTitle {
 	margin-left: 20rpx;
 	margin-top: 8rpx;
-	font-size: 32rpx;
-	color: #001549;
-	font-weight: bold;
+  font-size: 32rpx;
+  color: #004934;
+  font-weight: bold;
 }
-.applyInfo {
+.companyInfo {
 	font-size: 26rpx;
-	color: #4D6A96;
+	color: #4D9681;
 	margin-top: 15rpx;
 }
 
@@ -471,11 +474,11 @@
 .job-tags {
 	margin-top: 20rpx;
 	font-size: 12rpx;
-	color: #4D6A96;
+	color: #5BA38E;
 }
 
 .job-tags text {
-  background-color: #BBDAFF;
+  background-color: #B9E3D7;
   padding: 4rpx 20rpx;
   height: 24rpx;
   margin-right: 10rpx;
@@ -497,7 +500,7 @@
 	margin-left: 10%;
 	font-size: 24rpx;
   text-align: center;
-  color: #4D6A96;
+  color: #4D9681;
 }
 /* 帖子的样式 */
 .post-card {
@@ -561,6 +564,6 @@
 	display: flex;
 	justify-content: flex-end;
 	font-size: 26rpx;
-	color: #6998B2;
+	color: #5BA38E;
 }
 </style>

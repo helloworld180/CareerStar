@@ -69,7 +69,8 @@ export default {
       isVoiceInput: false,
       showOptions: false,
       scrollTop: 0,
-      websocket: null
+      websocket: null,
+	  token:'',
     }
   },
   onLoad(options) {
@@ -251,6 +252,10 @@ export default {
 }
 
 .chat-content {
+	background-image: url('/static/personalMessage/greenBgc.png'); /* 设置背景图像 */
+	background-size: cover; /* 使背景图像覆盖整个元素 */
+	background-repeat: no-repeat; /* 禁止背景图像重复 */
+	background-position: center; /* 将背景图像居中 */
 	background-color: #F6FFF8;
   flex: 1;
   // padding: 20rpx;

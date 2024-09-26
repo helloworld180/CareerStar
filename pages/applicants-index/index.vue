@@ -88,9 +88,9 @@
 
 			<!-- 职位列表 -->
 			<view class="job-list">
-				<view class="job-item" v-for="(job, index) in jobList" :key="index" @click="gotoJobDetails">
+				<view class="job-item" v-for="(job, index) in jobList" :key="index">
 					<!-- 第一行 -->
-					<view class="job-info">
+					<view class="job-info"  @click="gotoJobDetails">
 						<view style="display: flex;">
 							<view style="width: 40rpx; height: 40rpx; border-radius: 50%; background-color: #E4F4F0; box-shadow: inset 0 3rpx 6rpx 1rpx rgba(0, 0, 0, 0.3);"></view>
 							<view class="jobTitle">{{ job.title }}</view>
@@ -98,12 +98,12 @@
 						<view class="job-salary">{{ job.salary }}</view>
 					</view>
 					<!-- 第二行 公司名称 -->
-					<view class="companyInfo">
+					<view class="companyInfo"  @click="gotoJobDetails">
 						<text>{{ job.companyName }}</text>
 						<text style="margin-left: 20rpx;">{{ job.companySize }}</text>
 					</view>
 					<!-- 第三行 tag -->
-					<view class="job-tags">
+					<view class="job-tags"  @click="gotoJobDetails">
 						<text v-for="(tag, tagIndex) in job.tags" :key="tagIndex">{{ tag }}</text>
 					</view>
 					<!-- 第四行 HR -->
@@ -121,6 +121,10 @@
 				</view>
 			</view>
 			
+			<!-- 固定在右下角的加号按钮 -->
+			<view class="fab-button" @click="goToPostPage">
+				<view class="fab-icon"></view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -196,7 +200,7 @@ export default {
 	  fontColor2:'#666666',
       jobList: [
 		  {
-			title:'平面设计',
+			title:'设计',
 			salary:'6-8k',
 			companyName:'职星星茶饮',
 			companySize:'1000-9000人',
@@ -229,6 +233,11 @@ export default {
 	  gotoJobDetails() {
 		  uni.navigateTo({
 		  	url:'/pages/applicants-index/jobDetails'
+		  })
+	  },
+	  goToPostPage() {
+		  uni.navigateTo({
+		  	url:'/pages/applicants-index/createPost'
 		  })
 	  },
 	  navigateToStats(route) {
@@ -600,5 +609,30 @@ export default {
 	font-size: 24rpx;
   text-align: center;
   color: #4D9681;
+}
+.fab-button {
+  position: fixed;
+  right: 30rpx;
+  bottom: 130rpx;
+  width: 120rpx;
+  height: 120rpx;
+  background-color: #69B29D;  
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0rpx 8rpx 10rpx 2rpx rgba(0, 0, 0, 0.3);
+  z-index: 999;
+  overflow: hidden;
+}
+
+.fab-button::after {
+  content: "+";
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #FFFFFF;
+  font-size: 110rpx;
 }
 </style>

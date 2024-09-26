@@ -201,7 +201,78 @@
 			{
 				"navigationBarTitleText" : ""
 			}
+		},
+		{
+			"path" : "pages/applicants-index/createPost",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/hr-index/createPost",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/applicant-mine-myPost/applicant-mine-myPost",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/applicant-mine-attention/applicant-mine-attention",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/applicant-mine-fans/applicant-mine-fans",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/applicant-mine-view/applicant-mine-view",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/hr-mine-attention/hr-mine-attention",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/hr-mine-fans/hr-mine-fans",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/hr-mine-view/hr-mine-view",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/hr-mine-myMsg/hr-mine-myMsg",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
 		}
+		
 		
 		
 	],

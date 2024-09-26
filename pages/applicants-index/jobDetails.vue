@@ -199,7 +199,9 @@ export default {
 		uni.request({
 		  url: 'your_api_endpoint/job_details',
 		  method: 'GET',
-		  Authorization: this.token,
+		 header: {
+		     'Authorization': `Bearer ${this.token}`,
+		 },
 		  data: {
 			jobId: this.jobId // 假设jobId是通过路由参数传递的
 		  },
@@ -222,7 +224,6 @@ export default {
         uni.request({
           url: 'your_api_endpoint/check_favorite',
           method: 'GET',
-		  Authorization: this.token,
           data: {
             jobId: this.jobId
           },
